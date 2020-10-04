@@ -1,10 +1,11 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, Types} = require("mongoose");
+const User = require("./User.js");
 const moment = require("moment");
 
 
 const ReactionSchema = new Schema(
   {
-    // set custom id to avoid confusion with parent comment's _id field
+    
     reactionId: {
       type: Schema.Types.ObjectId,
       default: () => new Types.ObjectId(),
@@ -33,9 +34,6 @@ const ReactionSchema = new Schema(
 );
 
 
-
-
-
 const ThoughtSchema = new Schema({
   thoughtText: {
     type: String,
@@ -61,9 +59,9 @@ const ThoughtSchema = new Schema({
 );
 
 ThoughtSchema.virtual("reactionCount").get(function () {
-  return this.reaction.length;
+  return this.reactions.length;
 });
 
-const User = model("Thought", ThoughtSchema);
+const Thought = model("Thought", ThoughtSchema);
 
 module.exports = Thought;
