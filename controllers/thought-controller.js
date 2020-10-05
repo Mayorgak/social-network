@@ -40,14 +40,13 @@ const thoughtController = {
   },
 
   // create thought
-  createThought({ body}, res) {
-    Thought.create(body)
-    .then(({ _id }) => {
-       return User.findOneAndUpdate(
+  createThought({ body }, res) {
+    Thought.create(body).then(({ _id }) => {
+      return User.findOneAndUpdate(
         { _id: body.userId },
         { $push: { thoughts: _id } },
-        { new: true }).then((dbsocial) => res.json(dbsocial))
-     
+        { new: true }
+      ).then((dbsocial) => res.json(dbsocial));
     });
   },
 
@@ -67,7 +66,6 @@ const thoughtController = {
       .catch((err) => res.status(400).json(err));
   },
 
-
   deleteThought({ params }, res) {
     Thought.findOneAndDelete({ _id: params.id })
       .then((dbsocial) => {
@@ -80,9 +78,37 @@ const thoughtController = {
       .catch((err) => res.status(400).json(err));
   },
 
+  //add Reaaction
+  addReaction(req, res) {
+    console.log(req.params);
+    Thought.findByIdAndUpdate(
+      req.params.thoughtId,
+      { $push: { thoughts: req.params.thoughtId } },
+      { new: true }
+    )
+      .then((dbsocial) => {
+        if (!dbsocial) {
+          res.status(404).json({ message: "No thought found with this id!" });
+          return;
+        }
+        res.json(dbsocial);
+      })
+      .catch((err) => {
+        res.json(err);
+        console.log(err);
+      });
+  },
 
- 
-
+  // remove friend
+  deleteReaction(req, res) {
+    Thought.findOneAndUpdate(
+      req.params.thoughtId,
+      { $pull: { thought: req.params.thoughtId } },
+      { new: true }
+    )
+      .then((dbsocial) => res.json(dbsocial))
+      .catch((err) => res.json(err));
+  },
 };
 
   module.exports = thoughtController;
