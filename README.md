@@ -14,7 +14,7 @@ Run node server.js to start the application
 
 ## Dependencies
 
-![]()
+![image](https://github.com/Mayorgak/social-network/blob/main/images/Screen%20Shot%202020-10-04%20at%2011.00.40%20PM.png)
 
 ## Link
 https://youtu.be/qEPcuWk8lQQ
